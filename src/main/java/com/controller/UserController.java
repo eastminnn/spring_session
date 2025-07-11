@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.dto.UserReqDto;
+import com.dto.UserResDto;
 import com.entity.User;
 import com.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +30,7 @@ public class UserController {
 
     // 로그인 (세션)
     @PostMapping("/sign-in")
-    public String signin(@RequestBody UserReqDto dto, HttpSession session) {
+    public String signin(@RequestBody UserResDto dto, HttpSession session) {
         var optional = userRepository.findByUsername(dto.username());
         if (optional.isPresent() && optional.get().getPassword().equals(dto.password())) {
             session.setAttribute("loginUser", optional.get().getId());
