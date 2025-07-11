@@ -1,6 +1,6 @@
 package com.controller;
 
-import com.dto.UserDto;
+import com.dto.UserReqDto;
 import com.entity.User;
 import com.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -15,20 +15,21 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/sign-up")
-    public String signup(@RequestBody UserDto dto) {
+    public String signup(@RequestBody UserReqDto dto) {
         if (userRepository.findByUsername(dto.username()).isPresent()) {
             return "이미 존재하는 아이디입니다.";
         }
         userRepository.save(User.builder()
                 .username(dto.username())
                 .password(dto.password())
+                .nickname(dto.nickname())
                 .build());
         return "회원가입 성공";
     }
 
     // 로그인 (세션)
     @PostMapping("/sign-in")
-    public String signin(@RequestBody UserDto dto, HttpSession session) {
+    public String signin(@RequestBody UserReqDto dto, HttpSession session) {
         var optional = userRepository.findByUsername(dto.username());
         if (optional.isPresent() && optional.get().getPassword().equals(dto.password())) {
             session.setAttribute("loginUser", optional.get().getId());

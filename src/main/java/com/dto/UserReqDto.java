@@ -1,6 +1,7 @@
 package com.dto;
 
-public record UserDto(
+public record UserReqDto(
         String username,
-        String password
+        String password,
+        String nickname
 ) {}
